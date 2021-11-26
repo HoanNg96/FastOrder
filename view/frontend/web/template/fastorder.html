@@ -1,0 +1,19 @@
+<div class="fastorder-container">
+    <div class="search-form">
+        <!-- viewmodel = class name in js -->
+        <input type="text" class="search-field" placeholder="Search..." name="search"
+            data-bind="value: searchInput, event: { 'keyup': viewmodel }, valueUpdate: 'afterkeydown'">
+        <div class="search-result">
+            <table>
+                <tbody data-bind="foreach: searchResult">
+                    <tr>
+                        <td><img src="" alt="product-image" data-bind="attr: { src: small_image }"></td>
+                        <td><a href="" data-bind="text: name, attr: { href: url_key }"></a></td>
+                        <!-- <td data-bind="text: currencySymbol + ' ' + price"></td> -->
+                        <!-- <td><button class="action primary tocart" data-bind="click: AddtoCart">ADD TO CART</button></td> -->
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

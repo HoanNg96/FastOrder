@@ -1,0 +1,30 @@
+<?php
+
+/** @var \AHT\FastOrder\Block\Index $block */
+?>
+<!-- id & scope was pass in script tag -->
+<div id="fast-order-template" data-bind="scope: 'fastorder'">
+    <!-- ko template: getTemplate() --><!-- /ko -->
+    <script type="text/x-magento-init">
+    {
+        "#fast-order-template": {
+            "Magento_Ui/js/core/app": {
+                "components": {
+                    "fastorder": {
+                        "component": "AHT_FastOrder/js/fastorder"
+                    }
+                }
+            }
+        }
+    }
+    </script>
+</div>
+<script>
+    require([
+        'mage/url',
+        'Magento_Ui/js/block-loader'
+    ], function(url, blockLoader) {
+        blockLoader("<?= /* @escapeNotVerified */ $block->getViewFileUrl('images/loader-1.gif'); ?>");
+        return url.setBaseUrl('<?php /* @escapeNotVerified */ $block->getBaseUrl(); ?>');
+    })
+</script>
