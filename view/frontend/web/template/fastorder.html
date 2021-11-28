@@ -7,10 +7,14 @@
             <table>
                 <tbody data-bind="foreach: searchResult">
                     <tr>
-                        <td><img src="" alt="product-image" data-bind="attr: { src: small_image }"></td>
-                        <td><a href="" data-bind="text: name, attr: { href: url_key }"></a></td>
-                        <!-- <td data-bind="text: currencySymbol + ' ' + price"></td> -->
-                        <!-- <td><button class="action primary tocart" data-bind="click: AddtoCart">ADD TO CART</button></td> -->
+                        <td><img src="" class="search-product-image" alt="product-image"
+                                data-bind="attr: { src: search_image_html }"></td>
+                        <td><a href="" class="search-product-link" data-bind="text: name, attr: { href: url_key_html }"></a></td>
+                        <td>
+                            <span class="search-currency-symbol" data-bind="text: currencySymbol"></span>
+                            <span class="search-product-price" data-bind="text: price"></span>
+                        </td>
+                        <td><button type="button" class="action primary tocart" data-bind="click: $parent.addToCart">ADD TO CART</button></td>
                     </tr>
                 </tbody>
             </table>

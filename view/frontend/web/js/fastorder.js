@@ -14,35 +14,37 @@ define([
         },
         initialize: function () {
             // call parent initialize code
-            this._super();
+            this._super()
             // search binding
-            this.searchInput = ko.observable('');
-            this.searchResult = ko.observableArray(false);
-            /* this.fullPrice = ko.observable(''); */
+            this.searchInput = ko.observable('')
+            this.searchResult = ko.observableArray(false)
         },
 
         viewmodel: function () {
-            var self = this;
+            var self = this
             // build url
-            var url = urlBuilder.build('fastorder/index/search');
+            var url = urlBuilder.build('fastorder/index/search')
             // ajax post
             var result = storage.post(
                 url,
                 JSON.stringify({ 'search': self.searchInput() }),
                 false
             ).done(
+                // response = json data received from controller
                 function (response) {
-                    // response received from controller
                     console.log(Object.values(response.data))
-                    self.searchResult(Object.values(response.data));
+                    self.searchResult(Object.values(response.data))
                 }
             ).fail(
                 function (response) {
-                    console.log('Response Error');
+                    console.log('Response Error')
                 }
             );
-        }
 
+            self.addToCart = function () {
+                console.log('hello')
+            }
+        }
     });
 }
 );

@@ -40,6 +40,11 @@ class Search extends \Magento\Framework\App\Action\Action
     private $priceCurrency;
 
     /**
+     * @param \Magento\Catalog\Model\ProductRepository
+     */
+    private $productRepository;
+
+    /**
      * @param \Magento\Framework\App\Action\Context $context
      */
     public function __construct(
@@ -49,7 +54,8 @@ class Search extends \Magento\Framework\App\Action\Action
         \Magento\Framework\Controller\Result\JsonFactory $jsonFactory,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Catalog\Helper\Image $imageHelper,
-        \Magento\Framework\Pricing\PriceCurrencyInterface $priceCurrency
+        \Magento\Framework\Pricing\PriceCurrencyInterface $priceCurrency,
+        \Magento\Catalog\Model\ProductRepository $productRepository
     ) {
         $this->json = $json;
         $this->collectionFactory = $collectionFactory;
@@ -57,6 +63,7 @@ class Search extends \Magento\Framework\App\Action\Action
         $this->storeManager = $storeManager;
         $this->imageHelper = $imageHelper;
         $this->priceCurrency = $priceCurrency;
+        $this->productRepository = $productRepository;
         return parent::__construct($context);
     }
     /**
@@ -79,10 +86,17 @@ class Search extends \Magento\Framework\App\Action\Action
         $currencySymbol = $this->priceCurrency->getCurrencySymbol();
 
         foreach ($productCollectionArray as $key => $value) {
-            $productCollectionArray[$key]['url_key'] = $baseUrl . $value['url_key'] . '.html';
+            $productCollectionArray[$key]['url_key_html'] = $baseUrl . $value['url_key'] . '.html';
             $productCollectionArray[$key]['currencySymbol'] = $currencySymbol;
-            /* $productCollectionArray[$key]['small_image'] = $this->imageHelper->init($value['small_image'], 'small_image')->getUrl(); */
+            $productCollectionArray[$key]['price'] = number_format($value['price'], 2, '.', ',');
+            $productCollectionArray[$key]['search_image_html'] = $this->imageHelper->init(
+                $this->productRepository->get($value['sku']),
+                'product_thumbnail_image'
+            )
+                ->setImageFile($value['small_image'])
+                ->getUrl();
         }
+
         $jsonResult = $this->jsonFactory->create();
         $jsonResult->setData([
             'data' => $productCollectionArray
