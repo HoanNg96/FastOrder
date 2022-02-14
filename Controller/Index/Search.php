@@ -72,10 +72,12 @@ class Search extends \Magento\Framework\App\Action\Action
      * @return \Magento\Framework\Controller\ResultInterface
      */
     public function execute()
-    {
+    {   
+        // get ajax-post data from js file (fastorder.js)
         $data = $this->getRequest()->getContent();
         $data = $this->json->unserialize($data);
 
+        // get search result base on ajax-post data
         $productCollection = $this->collectionFactory->create()
             ->addAttributeToSelect('*')
             ->addAttributeToFilter('name', ['like' => '%' . $data['search'] . '%'])
@@ -101,6 +103,7 @@ class Search extends \Magento\Framework\App\Action\Action
         $jsonResult->setData([
             'data' => $productCollectionArray
         ]);
+
         // return data = response (in fastorder.js)
         return $jsonResult;
     }

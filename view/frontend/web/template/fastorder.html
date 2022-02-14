@@ -1,9 +1,12 @@
 <div class="fastorder-container">
     <div class="search-form">
-        <!-- viewmodel = class name in js -->
+        <!-- viewmodel point to "viewmodel: function()..." in js file -->
         <input type="text" class="search-field" placeholder="Search..." name="search"
-            data-bind="value: searchInput, event: { 'keyup': viewmodel }, valueUpdate: 'afterkeydown'">
-        <div class="search-result">
+            data-bind="value: searchInput, event: { keyup: viewmodel, mouseover: enableSearchResult, mouseout: disableSearchResult }, valueUpdate: 'afterkeydown', hasFocus: isSelected">
+        <!-- for multiple condition: add "()" after observable -->
+        <!-- ko if: searchInput -->
+        <div class="search-result" data-bind="event: { mouseover: enableSearchResult, mouseout: disableSearchResult }, visible: isSelected() || searchResultHover()">
+            <!-- ko if: searchResult().length > 0 -->
             <table>
                 <tbody data-bind="foreach: searchResult">
                     <tr>
@@ -18,6 +21,11 @@
                     </tr>
                 </tbody>
             </table>
+            <!-- /ko -->
+            <!-- ko if: searchResult().length == 0 -->
+            <div class="blank-result">None product was found!</div>
+            <!-- /ko -->
         </div>
+        <!-- /ko -->
     </div>
 </div>

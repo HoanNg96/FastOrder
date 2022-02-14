@@ -8,20 +8,25 @@ define([
     'use strict';
     //extend parent
     return Component.extend({
-        // if not declare template in phtml file
+        // required if not declare template in phtml file
         defaults: {
             template: 'AHT_FastOrder/fastorder'
         },
+
+        // for declare observables
         initialize: function () {
             // call parent initialize code
             this._super()
-            // search binding
-            this.searchInput = ko.observable('')
+            // binding values
+            this.searchInput = ko.observable()
             this.searchResult = ko.observableArray(false)
+            this.isSelected = ko.observable(false)
+            this.searchResultHover = ko.observable(false)
         },
 
         viewmodel: function () {
             var self = this
+            self.searchResult(false)
             // build url
             var url = urlBuilder.build('fastorder/index/search')
             // ajax post
@@ -30,20 +35,25 @@ define([
                 JSON.stringify({ 'search': self.searchInput() }),
                 false
             ).done(
-                // response = json data received from controller
+                // response = json result received from controller
+                // data = key of json result
                 function (response) {
                     console.log(Object.values(response.data))
                     self.searchResult(Object.values(response.data))
                 }
             ).fail(
                 function (response) {
-                    console.log('Response Error')
+                    console.log(response)
                 }
             );
+        },
 
-            self.addToCart = function () {
-                console.log('hello')
-            }
+        enableSearchResult: function () {
+            this.searchResultHover(true);
+        },
+
+        disableSearchResult: function () {
+            this.searchResultHover(false);
         }
     });
 }

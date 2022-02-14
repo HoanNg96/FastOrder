@@ -3,5 +3,37 @@
         td {
             vertical-align: middle;
         }
+        tr {
+            border-bottom: 1px solid gainsboro;
+            &:last-child {
+                border-bottom: none;
+            }
+        }
+        .search-form {
+            width: 100%;
+            position: relative;
+        }
+        .search-field {
+            position: absolute;
+            z-index: 10;
+            top: 0;
+            left: 0;
+            right: 0;
+        }
+        .search-result {
+            position: absolute;
+            z-index: 5;
+            top: 30px;
+            left: 0;
+            right: 0;
+            background-color: white;
+            max-height: 70vh;
+            overflow-y: auto;
+            border: 1px solid gainsboro;
+            border-top: none;
+        }
+        .blank-result {
+            padding: 9px;
+        }
     }
 }
