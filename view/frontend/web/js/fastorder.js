@@ -20,8 +20,13 @@ define([
             // binding values
             this.searchInput = ko.observable()
             this.searchResult = ko.observableArray(false)
-            this.isSelected = ko.observable(false)
-            this.searchResultHover = ko.observable(false)
+            this.isSelected = ko.observable(false).extend({ rateLimit: { timeout: 500 } })
+            this.searchResultHover = ko.observable(false).extend({ rateLimit: { timeout: 500 } })
+            this.cartItem = ko.observableArray(false)
+            this.totalProduct = ko.observableArray(false);
+            this.totalQty = ko.observableArray(false);
+            this.cartSubTotal = ko.observable('0');
+
         },
 
         viewmodel: function () {
@@ -54,6 +59,12 @@ define([
 
         disableSearchResult: function () {
             this.searchResultHover(false);
+        },
+
+        // item = product corresponding to add cart button
+        addToCart: function (item) {
+            this.cartItem.push(item)
+            console.log(this.cartItem)
         }
     });
 }
